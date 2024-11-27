@@ -1,0 +1,26 @@
+name: Triggered from Repo A
+
+on:
+  repository_dispatch:
+    types: [trigger-workflow]  # Matches the custom event type sent by Repo-A
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repo B
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18  # Use a Node.js version compatible with Repo-B's code
+
+      - name: Install dependencies
+        run: |
+             npm init -y
+             npm install
+
+      - name: Run triggered script
+        run: node triggered-script.js
